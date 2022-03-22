@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 
+
 def Caesar(plaintext, key):
 
     outcome = ''
@@ -24,7 +25,7 @@ def Caesar(plaintext, key):
         else:
             outcome += i
 
-    print (outcome)
+    print(outcome)
 
 
 def playfair(plaintext, key):
@@ -57,7 +58,7 @@ def playfair(plaintext, key):
             break
 
     temp = temp.replace(' ', '')  # 把空格刪掉
-    #print(temp)
+    # print(temp)
 
     Fullboard = processed_key + temp
 
@@ -72,20 +73,20 @@ def playfair(plaintext, key):
             matrix[i][j] = Fullboard[count]
             count = count+1
 
-    #print(matrix)
+    # print(matrix)
 
 ############################ 處理輸入的資料 ###################################
 
-    boxbox=[]
+    boxbox = []
 
-    for i in range(0,len(plaintext)):
+    for i in range(0, len(plaintext)):
         boxbox.append(plaintext[i])
 
-    plaintext=""
-    for i in range(0,len(boxbox)):
-        if boxbox[i]=='j':
-            boxbox[i]='i'
-        plaintext+=boxbox[i]
+    plaintext = ""
+    for i in range(0, len(boxbox)):
+        if boxbox[i] == 'j':
+            boxbox[i] = 'i'
+        plaintext += boxbox[i]
 
     string_box = []
 
@@ -96,8 +97,8 @@ def playfair(plaintext, key):
 
         if len(plaintext) == 0:
             return 0
-        elif len(plaintext)==1:
-            plaintext=plaintext+"x"
+        elif len(plaintext) == 1:
+            plaintext = plaintext+"x"
         if plaintext[0] == plaintext[1] and len(plaintext) != 0:
             new_string = ""
             buffer = plaintext[0]+"x"
@@ -126,8 +127,8 @@ def playfair(plaintext, key):
 
     cut_string(plaintext, string_box)
 
-    #print(string_box)
-    
+    # print(string_box)
+
 
 ################################################################
 
@@ -187,30 +188,31 @@ def playfair(plaintext, key):
             outcome += matrix[letter2_posx][letter2_posy]
 
         return outcome
-    output=""
+    output = ""
     for i in range(len(string_box)):
         #print(playfair_cipher(matrix, string_box[i][0], string_box[i][1]))
-        output+=playfair_cipher(matrix, string_box[i][0], string_box[i][1])
+        output += playfair_cipher(matrix, string_box[i][0], string_box[i][1])
     print(output)
 
 
 def Rail_Fence(plaintext, key):
     key = int(key)
-    matrix = [[0 for _ in range(0, len(plaintext))]for _ in range(0, key)]  # 前面是Row 後面是Column
-    #print(matrix)
+    matrix = [[0 for _ in range(0, len(plaintext))]
+              for _ in range(0, key)]  # 前面是Row 後面是Column
+    # print(matrix)
 
     list = []
 
     for i in range(0, key):
         list.append(i)
-        #print(i)
+        # print(i)
 
     flag = 0  # 檢查是否觸底
     count = 0
 
     for j in range(0, len(plaintext)):
         matrix[count][j] = plaintext[j]
-        #print(matrix)
+        # print(matrix)
 
         if count == key-1:
             flag = 1
@@ -267,12 +269,12 @@ def Row_Transposition_Cipher(plaintext, key):
         list1.append(key[i])
 
     list1.sort()  # a,c,h,k
-    #print(list1)
+    # print(list1)
 
     for i in range(0, len(list1)):
         dic[list1[i]] = i
 
-    #print(dic)  # {'a': 0, 'c': 1, 'h': 2, 'k': 3}
+    # print(dic)  # {'a': 0, 'c': 1, 'h': 2, 'k': 3}
 
     list_of_keys = dic.keys()
     list_of_keys = list(list_of_keys)  # 把key轉為列表
@@ -284,7 +286,7 @@ def Row_Transposition_Cipher(plaintext, key):
 
     for i in range(0, len(key)):
         position_dic[key[i]] = i
-    #print(position_dic)  # {'h': 0, 'a': 1, 'c': 2, 'k': 3}
+    # print(position_dic)  # {'h': 0, 'a': 1, 'c': 2, 'k': 3}
 
     for i in range(0, row1):
         if flag == 1:
@@ -295,38 +297,40 @@ def Row_Transposition_Cipher(plaintext, key):
             if count >= len(plaintext):
                 flag = 1
                 break
-    #print(matrix)
+    # print(matrix)
 # [['g' 'e' 'e' 'k']
 #['s' ' ' 'f' 'o']
 #['r' ' ' 'g' 'e']
 # ['e' 'k' 's' '']]
-    output=""
+    output = ""
     for j in range(0, len(list_of_keys)):
         for k in range(0, row1):
             temp = position_dic[list_of_keys[j]]  # 查位置 a最先開始 並對到第一行，所以先印第一行
         # 下一個進來的是c 對應到pos裡面的第二行
         # 再來是h對應到裡面的第0行
         # 最後是k 對應到第4行
-            output+=matrix[k][temp]
-            #print(matrix[k][temp])
+            output += matrix[k][temp]
+            # print(matrix[k][temp])
     print(output)
 
 
-def Vernam(plaintext,key):
+def Vernam(plaintext, key):
 
-    plaintext = plaintext.replace(" ","")
-    key = key.replace(" ","")
-    outcome=""
+    plaintext = plaintext.replace(" ", "")
+    if len(key) < len(plaintext):
+        key = key + plaintext[0:len(plaintext)-len(key)]
+    #key = key.replace(" ","")
+    outcome = ""
 
-    for i in range(0,len(plaintext)):
+    for i in range(0, len(plaintext)):
         # plaintext_ord = ord(plaintext(i)-ord('A'))
         # key_ord = ord(key[i])-ord('A')
         # temp = (plaintext_ord^key_ord) + ord('A')
-        temp = ((ord(plaintext[i])-ord('a'))^(ord(key[i])-ord('a')))+ord('a')
+        temp = ((ord(plaintext[i])-ord('A')) ^ (ord(key[i])-ord('A')))+ord('A')
         outcome = outcome + chr(temp)
-        key = key + chr(temp)
-    
+
     print(outcome)
+
 
 mindex = sys.argv[1:].index('-m')
 iindex = sys.argv[1:].index('-i')

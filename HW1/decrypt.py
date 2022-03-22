@@ -96,8 +96,9 @@ def playfair(ciphertxt, key):
 
 def vernam(ciphertxt, key):
     ciphertxt = ciphertxt.upper()
-    if len(key) < len(ciphertxt):
-        ikey = key + ciphertxt[0:len(ciphertxt)-len(key)]
+    ikey = key
+    # if len(key) < len(ciphertxt):
+    #     ikey = key + ciphertxt[0:len(ciphertxt)-len(key)]
 
     output = ""
     for i in range(0, len(ciphertxt)):
@@ -105,6 +106,7 @@ def vernam(ciphertxt, key):
         tmp = ((ord(ikey[i])-ord('A')) ^
                (ord(ciphertxt[i])-ord('A'))) + ord('A')
         # print(tmp)
+        ikey = ikey + chr(tmp)
         output = output + chr(tmp)
     # print(ikey)
     # print(ciphertxt)
