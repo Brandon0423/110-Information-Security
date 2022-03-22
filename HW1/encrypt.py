@@ -4,6 +4,8 @@ import sys
 def Caesar(plaintext, key):
 
     outcome = ''
+    if key > 26:
+        key = key % 26
 
     for i in plaintext:
         if i.isalpha():  # 如果i是字母
@@ -337,3 +339,5 @@ plaintext = ' '.join(sys.argv[iindex+2:kindex+1])
 key = ' '.join(sys.argv[kindex+2:])
 
 globals()[method](plaintext, key)
+
+
