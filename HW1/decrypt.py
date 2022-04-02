@@ -1,6 +1,5 @@
 import sys
 import numpy as np
-from sklearn import exceptions
 
 
 # KEY正向左 負向右 (解密) A65 90 a97 122
