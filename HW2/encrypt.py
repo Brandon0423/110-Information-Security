@@ -233,6 +233,8 @@ def DES(_input, _key):
             (tmpLeft, tmpRight) = encrypt(tmpLeft, tmpRight, roundKey[i])
         else:
             (tmpRight, tmpLeft) = encrypt(tmpLeft, tmpRight, roundKey[i])
+        print(
+            f"round {i}: {hex(int(tmpLeft, 2))[2:].upper().zfill(8)} {hex(int(tmpRight, 2))[2:].upper().zfill(8)} {hex(int(roundKey[i], 2))[2:].upper().zfill(12)}")
     # final permutation(PI_1)
     tmp = tmpLeft+tmpRight
     output = ""

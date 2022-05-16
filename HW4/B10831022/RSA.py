@@ -1,10 +1,6 @@
-from re import X
 import random
-import math
 import base64
 import sys
-from itsdangerous import base64_encode
-from numpy import arange
 
 
 def isprime(number):
@@ -149,12 +145,12 @@ def RSA_encryption(message, N, e):  # 信息, N ,公鑰
     base64_string = base64_bytes.decode("ascii")
 
     print(base64_string)
-    # return output
+    return base64_string
 
 
 def RSA_decryption(ciphertext, N, d):
 
-    print(type(ciphertext))
+    # print(type(ciphertext))
     base64_message = ciphertext
     base64_bytes = base64_message.encode('ascii')
     message_bytes = base64.b64decode(base64_bytes)
@@ -166,12 +162,12 @@ def RSA_decryption(ciphertext, N, d):
     counter = 0
     for i in range(0, len(message)):
         if counter == 500:
-            print("要解密的東西是:", buffer)
+            #print("要解密的東西是:", buffer)
             # print(len(buffer))
             data = int(buffer)
-            print("處理完後長這樣: ", data)
+            #print("處理完後長這樣: ", data)
             decry = chr(Square_multiply(data, d, N))
-            print("平方加速後: ", decry)
+            #print("平方加速後: ", decry)
             output += str(decry)
             counter = 1
             buffer = message[i]
@@ -180,9 +176,9 @@ def RSA_decryption(ciphertext, N, d):
             counter += 1
 
     last_word = int(message[-500:len(message)])
-    print("最後字 :" ,last_word)
+    #print("最後字 :", last_word)
     decry = chr(Square_multiply(last_word, d, N))
-    print("平方加速後: ", decry)
+    #print("平方加速後: ", decry)
     output += str(decry)
 
     print(output)
@@ -194,7 +190,7 @@ def RSA_decryption(ciphertext, N, d):
     #     #decry = chr(decry % N)
     #     temp = str(decry)
     #     output += temp
-    print(output)
+    # print(output)
 
 
 def CRT_decryption(ciphertext, p, q, d):
@@ -211,17 +207,17 @@ def CRT_decryption(ciphertext, p, q, d):
     dp = d % (p-1)
     dq = d % (q-1)
     qinv = findModReverse(q, p)
-    
-    box=[]
+
+    box = []
     buffer = ""
     counter = 0
     for i in range(0, len(message)):
         if counter == 500:
-            
-            print("要解密的東西是:", buffer)
+
+            #print("要解密的東西是:", buffer)
             # print(len(buffer))
             data = int(buffer)
-            print("處理完後長這樣: ", data)
+            #print("處理完後長這樣: ", data)
             box.append(data)
             counter = 1
             buffer = message[i]
@@ -231,7 +227,6 @@ def CRT_decryption(ciphertext, p, q, d):
     last_word = int(message[-500:len(message)])
     box.append(last_word)
 
-
     # for i in range(0, len(ciphertext)):
     #     #m1 = ciphertext[i]**dp % p
     #     m1 = Square_multiply(ciphertext[i], dp, p)
@@ -240,7 +235,6 @@ def CRT_decryption(ciphertext, p, q, d):
     #     h = qinv*(m1-m2) % p
     #     m = m2+h*q
     #     output += chr(m)
-
 
     for i in range(0, len(box)):
         #m1 = ciphertext[i]**dp % p
@@ -254,11 +248,11 @@ def CRT_decryption(ciphertext, p, q, d):
     print(output)
 
 
-#temp = RSA_generation()
+# temp = RSA_generation()
 # for i in range(0,len(temp)):
 #     print(temp[i])
 
-message = "justinbieber"
+message = "Info_Security_HW4"
 
 # ciphertext = RSA_encryption(message, temp[2], temp[4])
 # RSA_decryption(ciphertext, temp[2], temp[5])
